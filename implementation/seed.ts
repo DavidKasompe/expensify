@@ -1,4 +1,4 @@
-import { PrismaClient, Role, TransactionCategory, TransactionStatus } from '@prisma/client';
+import { PrismaClient } from '@prisma/client';
 import { hash } from 'bcryptjs';
 
 const prisma = new PrismaClient();
@@ -12,19 +12,19 @@ async function main() {
   const admin = await prisma.user.upsert({
     where: { email: 'admin@tora.demo' },
     update: {},
-    create: { name: 'Admin User', email: 'admin@tora.demo', passwordHash: password, role: Role.ADMIN },
+    create: { name: 'Admin User', email: 'admin@tora.demo', passwordHash: password, role: 'ADMIN' },
   });
 
   const finance = await prisma.user.upsert({
     where: { email: 'finance@tora.demo' },
     update: {},
-    create: { name: 'Finance Officer', email: 'finance@tora.demo', passwordHash: password, role: Role.FINANCE_OFFICER },
+    create: { name: 'Finance Officer', email: 'finance@tora.demo', passwordHash: password, role: 'FINANCE_OFFICER' },
   });
 
   const field = await prisma.user.upsert({
     where: { email: 'field@tora.demo' },
     update: {},
-    create: { name: 'Field Officer', email: 'field@tora.demo', passwordHash: password, role: Role.FIELD_OFFICER },
+    create: { name: 'Field Officer', email: 'field@tora.demo', passwordHash: password, role: 'FIELD_OFFICER' },
   });
 
   console.log('✅ Users created');
@@ -60,10 +60,10 @@ async function main() {
       {
         projectId: project1.id,
         amount: 320,
-        category: TransactionCategory.TRANSPORT,
+        category: 'TRANSPORT',
         description: 'Field transport – Nairobi site visit',
         date: new Date('2026-03-01'),
-        status: TransactionStatus.APPROVED,
+        status: 'APPROVED',
         createdById: field.id,
         approvedById: finance.id,
         approvedAt: new Date('2026-03-02'),
@@ -71,19 +71,19 @@ async function main() {
       {
         projectId: project1.id,
         amount: 850,
-        category: TransactionCategory.SUPPLIES,
+        category: 'SUPPLIES',
         description: 'Medical supplies – Site B',
         date: new Date('2026-03-03'),
-        status: TransactionStatus.PENDING,
+        status: 'PENDING',
         createdById: field.id,
       },
       {
         projectId: project1.id,
         amount: 200,
-        category: TransactionCategory.ALLOWANCE,
+        category: 'ALLOWANCE',
         description: 'Field team allowance – Week 2',
         date: new Date('2026-03-05'),
-        status: TransactionStatus.APPROVED,
+        status: 'APPROVED',
         createdById: field.id,
         approvedById: finance.id,
         approvedAt: new Date('2026-03-06'),
@@ -91,10 +91,10 @@ async function main() {
       {
         projectId: project1.id,
         amount: 1100,
-        category: TransactionCategory.ACCOMMODATION,
+        category: 'ACCOMMODATION',
         description: 'Team accommodation – Week 4',
         date: new Date('2026-03-08'),
-        status: TransactionStatus.REJECTED,
+        status: 'REJECTED',
         note: 'Exceeds accommodation policy limit. Resubmit with proper approval.',
         createdById: field.id,
         approvedById: finance.id,
@@ -103,10 +103,10 @@ async function main() {
       {
         projectId: project2.id,
         amount: 4500,
-        category: TransactionCategory.SUPPLIES,
+        category: 'SUPPLIES',
         description: 'Water pump equipment – Phase 1',
         date: new Date('2026-03-02'),
-        status: TransactionStatus.APPROVED,
+        status: 'APPROVED',
         createdById: field.id,
         approvedById: admin.id,
         approvedAt: new Date('2026-03-03'),
@@ -114,10 +114,10 @@ async function main() {
       {
         projectId: project2.id,
         amount: 750,
-        category: TransactionCategory.TRANSPORT,
+        category: 'TRANSPORT',
         description: 'Logistics – Site delivery',
         date: new Date('2026-03-04'),
-        status: TransactionStatus.PENDING,
+        status: 'PENDING',
         createdById: field.id,
       },
     ],
@@ -151,3 +151,4 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
+
