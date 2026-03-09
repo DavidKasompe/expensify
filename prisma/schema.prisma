@@ -1,0 +1,85 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// SQLite doesn't support enums — we use String with validation in application code
+// Roles: ADMIN | FINANCE_OFFICER | FIELD_OFFICER
+// TransactionStatus: PENDING | APPROVED | REJECTED
+// TransactionCategory: TRANSPORT | SUPPLIES | ALLOWANCE | ACCOMMODATION | COMMUNICATION | OTHER
+// AuditAction: LOGIN | PROJECT_CREATED | PROJECT_UPDATED | PROJECT_DELETED | TRANSACTION_CREATED | TRANSACTION_APPROVED | TRANSACTION_REJECTED | USER_CREATED
+
+model User {
+  id           String @id @default(cuid())
+  name         String
+  email        String @unique
+  passwordHash String
+  role         String @default("FIELD_OFFICER")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  createdProjects      Project[]     @relation("ProjectCreatedBy")
+  createdTransactions  Transaction[] @relation("TransactionCreatedBy")
+  approvedTransactions Transaction[] @relation("TransactionApprovedBy")
+  auditLogs            AuditLog[]
+
+  @@map("users")
+}
+
+model Project {
+  id        String   @id @default(cuid())
+  name      String
+  location  String
+  budget    Float
+  startDate DateTime
+  endDate   DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  createdById  String
+  createdBy    User          @relation("ProjectCreatedBy", fields: [createdById], references: [id])
+  transactions Transaction[]
+
+  @@map("projects")
+}
+
+model Transaction {
+  id          String   @id @default(cuid())
+  amount      Float
+  category    String
+  description String
+  date        DateTime
+  status      String   @default("PENDING")
+  receiptUrl  String?
+  note        String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  approvedAt  DateTime?
+
+  projectId    String
+  project      Project @relation(fields: [projectId], references: [id])
+  createdById  String
+  createdBy    User    @relation("TransactionCreatedBy", fields: [createdById], references: [id])
+  approvedById String?
+  approvedBy   User?   @relation("TransactionApprovedBy", fields: [approvedById], references: [id])
+
+  @@map("transactions")
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  action     String
+  entityType String
+  entityId   String
+  meta       String?
+  createdAt  DateTime @default(now())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  @@map("audit_logs")
+}

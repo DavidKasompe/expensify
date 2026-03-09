@@ -1,15 +1,15 @@
-import SiteBanner from '@/components/SiteBanner';
-import Navbar from '@/components/Navbar';
-import HeroSection from '@/components/HeroSection';
-import LogoMarquee from '@/components/LogoMarquee';
-import FeaturesGrid from '@/components/FeaturesGrid';
-import CaseStudies from '@/components/CaseStudies';
-import FreeTrial from '@/components/FreeTrial';
-import Reviews from '@/components/Reviews';
-import Integrations from '@/components/Integrations';
-import FAQ from '@/components/FAQ';
-import BottomSignup from '@/components/BottomSignup';
-import Footer from '@/components/Footer';
+import SiteBanner from '@/components/landing/SiteBanner';
+import Navbar from '@/components/landing/Navbar';
+import HeroSection from '@/components/landing/HeroSection';
+import LogoMarquee from '@/components/landing/LogoMarquee';
+import FeaturesGrid from '@/components/landing/FeaturesGrid';
+import CaseStudies from '@/components/landing/CaseStudies';
+import FreeTrial from '@/components/landing/FreeTrial';
+import Reviews from '@/components/landing/Reviews';
+import Integrations from '@/components/landing/Integrations';
+import FAQ from '@/components/landing/FAQ';
+import BottomSignup from '@/components/landing/BottomSignup';
+import Footer from '@/components/landing/Footer';
 
 export default function Home() {
   return (

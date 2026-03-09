@@ -39,3 +39,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+# local artifacts
+build-error*.log
+nul
+Icons8/
+publicicons/
