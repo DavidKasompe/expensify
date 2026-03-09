@@ -5,9 +5,10 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  directUrl = env("DIRECT_DATABASE_URL")
 }
 
-// SQLite doesn't support enums â€” we use String with validation in application code
+// SQLite doesn't support enums — we use String with validation in application code
 // Roles: ADMIN | FINANCE_OFFICER | FIELD_OFFICER
 // TransactionStatus: PENDING | APPROVED | REJECTED
 // TransactionCategory: TRANSPORT | SUPPLIES | ALLOWANCE | ACCOMMODATION | COMMUNICATION | OTHER
