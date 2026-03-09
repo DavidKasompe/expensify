@@ -44,3 +44,6 @@ build-error*.log
 nul
 Icons8/
 publicicons/
+
+# prisma
+prisma/dev.db
